@@ -1,7 +1,7 @@
 import sbt.Keys.name
 
 val projectSettings = Seq(
-  organization := "com.myorganization",
+  organization := "com.organization",
   name := "base-playfm",
   scalaVersion := "2.11.8",
   version := "1.0"

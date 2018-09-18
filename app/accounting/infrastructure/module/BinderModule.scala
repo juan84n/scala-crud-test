@@ -1,5 +1,6 @@
 package accounting.infrastructure.module
 
+import accounting.domain.repository.{ AccountRepoInMemory, AccountRepository }
 import com.google.inject.AbstractModule
 import play.api.Logger
 
@@ -22,6 +23,7 @@ class BinderModule extends AbstractModule {
     Logger.info( "BinderModule... (ok)" )
 
     bind( classOf[Greeting] ).to( classOf[SpanishGreeting] ).asEagerSingleton()
+    bind( classOf[AccountRepository] ).to( classOf[AccountRepoInMemory] ).asEagerSingleton()
 
   }
 

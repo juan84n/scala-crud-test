@@ -1,4 +1,4 @@
-package accounting.infrastructure.module
+/*package accounting.infrastructure.module
 
 import accounting.infrastructure.persistence.repository.CacheRepository
 import akka.Done
@@ -22,4 +22,4 @@ class CacheModule extends AbstractModule {
     bind( classOf[Loader] ).to( classOf[CacheLoader] ).asEagerSingleton()
   }
 
-}
+}*/ 

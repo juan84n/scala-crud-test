@@ -1,6 +1,7 @@
 package accounting.infrastructure.module
 
 import accounting.domain.repository.{ AccountRepoInMemory, AccountRepository }
+import accounting.infrastructure.persistence.MessageH2Repo
 import com.google.inject.AbstractModule
 import play.api.Logger
 
@@ -23,7 +24,8 @@ class BinderModule extends AbstractModule {
     Logger.info( "BinderModule... (ok)" )
 
     bind( classOf[Greeting] ).to( classOf[SpanishGreeting] ).asEagerSingleton()
-    bind( classOf[AccountRepository] ).to( classOf[AccountRepoInMemory] ).asEagerSingleton()
+    //bind( classOf[AccountRepository] ).to( classOf[AccountRepoInMemory] ).asEagerSingleton()
+    bind( classOf[AccountRepository] ).to( classOf[MessageH2Repo] ).asEagerSingleton()
 
   }
 

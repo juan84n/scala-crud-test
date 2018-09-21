@@ -11,6 +11,10 @@ trait AccountRepository {
 
   def save( acc: Account ): Future[String]
 
+  def findAll(): Future[List[Account]]
+
+  def delete( no: String ): Future[Option[String]]
+
 }
 
 class AccountRepoInMemory() extends AccountRepository {
@@ -24,10 +28,24 @@ class AccountRepoInMemory() extends AccountRepository {
   }
 
   def save( acc: Account ): Future[String] = {
-    if ( acc.no == "9999" ) {
+    if ( acc.id == "9999" ) {
       Future.failed( new Exception( "Error de conexión a la base de datos" ) )
     } else {
-      Future.successful( "Cuenta almacenada exitosamente" )
+      accs += ( acc.id -> acc )
+      Future.successful( s"Cuenta ${acc.id} almacenada exitosamente" )
+    }
+  }
+
+  def findAll(): Future[List[Account]] = {
+    Future.successful( accs.map( reg => reg._2 ).toList )
+  }
+
+  def delete( no: String ): Future[Option[String]] = {
+    if ( accs.contains( no ) ) {
+      accs -= no
+      Future.successful( Some( s"Cuenta ${no} eliminada" ) )
+    } else {
+      Future.successful( None )
     }
   }
 

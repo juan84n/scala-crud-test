@@ -2,4 +2,7 @@
 GET         /status                     accounting.application.AccountController.status
 GET         /account                    accounting.application.AccountController.find( no: String )
 GET         /accountWithReader          accounting.application.AccountController.findWithReader( no: String )
+GET         /findAllWithReader          accounting.application.AccountController.findAllWithReader
 POST        /account                    accounting.application.AccountController.save
+POST        /accountWithReader          accounting.application.AccountController.saveWithReader
+DELETE      /deleteWithReader           accounting.application.AccountController.deleteWithReader( no: String )

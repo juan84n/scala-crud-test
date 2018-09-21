@@ -61,4 +61,44 @@ class AccountController @Inject() ( cc: ControllerComponents, accountRepo: Accou
 
   }
 
+  def saveWithReader(): Action[AnyContent] = Action.async { request =>
+
+    val jsonBody: Option[JsValue] = request.body.asJson
+
+    jsonBody match {
+      case None => Future.successful( BadRequest( "No recibimos un json válido" ) as TEXT )
+      case Some( body ) => {
+        val receivedAccount: Account = body.as[Account]
+        val myConfiguredReader = AccountService.guardarCuenta( receivedAccount )
+        myConfiguredReader.run( accountRepo )
+          .map { resultado => Ok( resultado ) as TEXT }
+      }
+    }
+  }
+
+  def findAllWithReader = Action.async {
+
+    // Paso 1. Configurar el Reader
+    val myConfiguredReader = AccountService.listarCuentas()
+
+    // Paso 2. Ejecutarlo
+    myConfiguredReader.run( accountRepo )
+      .map { resultado => Ok( Json.toJson( resultado ) ) as JSON }
+
+  }
+
+  def deleteWithReader( no: String ): Action[AnyContent] = Action.async {
+
+    val myConfiguredReader = AccountService.eliminarCuenta( no )
+
+    myConfiguredReader.run( accountRepo )
+      .map { resultado =>
+        resultado match {
+          case Some( info ) => Ok( Json.toJson( info ) ) as JSON
+          case None         => NotFound( "No encontramos la cuenta" ) as TEXT
+        }
+      }
+
+  }
+
 }
